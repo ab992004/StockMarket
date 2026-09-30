@@ -1,0 +1,2 @@
+C:\aspnetcore\StockMarket\StockMarket\wwwroot\StyleSheet.css
+wwwroot\StyleSheet.css
