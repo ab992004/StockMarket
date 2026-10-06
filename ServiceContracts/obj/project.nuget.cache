@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HfwFxYewLEc=",
+  "dgSpecHash": "gLreH47Syr8=",
   "success": true,
-  "projectFilePath": "C:\\aspnetcore\\StockMarket\\ServiceContracts\\ServiceContracts.csproj",
+  "projectFilePath": "C:\\Users\\ramys\\OneDrive\\Documents\\StockMarket\\ServiceContracts\\ServiceContracts.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ramys\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
     "C:\\Users\\ramys\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",

@@ -1,5 +1,7 @@
 <Solution>
+  <Project Path="Entities/Entities.csproj" Id="ddb60acc-af82-4238-be97-2450be799e96" />
   <Project Path="ServiceContracts/ServiceContracts.csproj" />
   <Project Path="Services/Services.csproj" />
   <Project Path="StockMarket/StockMarket.csproj" />
+  <Project Path="Tests/Tests.csproj" Id="7772c430-1359-4be3-ab6a-7a142e89cdb5" />
 </Solution>
