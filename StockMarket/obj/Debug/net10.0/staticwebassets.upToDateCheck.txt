@@ -1,2 +1,2 @@
-C:\Users\ramys\OneDrive\Documents\StockMarket\StockMarket\wwwroot\StyleSheet.css
+C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\StyleSheet.css
 wwwroot\StyleSheet.css

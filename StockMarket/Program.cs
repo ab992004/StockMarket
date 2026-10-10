@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Services
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IFinnhubService, FinnhubService>();
+builder.Services.AddSingleton<IFinnhubService, FinnhubService>();
+builder.Services.AddSingleton<IStocksService, StocksService>();
 builder.Services.AddHttpClient();
 builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection(nameof(TradingOptions)));
 #endregion
