@@ -4,7 +4,7 @@ namespace Entities
 {
     public class SellOrder
     {
-        
+        [Key]
         public Guid SellOrderID { get; set; }
         [Required]
         public string? StockSymbol { get; set; }

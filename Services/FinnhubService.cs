@@ -34,21 +34,22 @@ namespace Services
 
         public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSympol)
         {
-            using(HttpClient httpClient = _httpClientFactory.CreateClient())
+            using HttpClient httpClient = _httpClientFactory.CreateClient();
+            
+            HttpRequestMessage httpRequest = new HttpRequestMessage()
             {
-                HttpRequestMessage httpRequest = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSympol}&token={_configuration["FinnhubToken"]}"),
-                    Method = HttpMethod.Get
-                };
-                HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest);
-                var dict = await httpResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>()?? throw new InvalidOperationException("No response from finnhub server");
+                RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSympol}&token={_configuration["FinnhubToken"]}"),
+                Method = HttpMethod.Get
+            };
 
-                if (dict.TryGetValue("error", out var error))
-                    throw new InvalidOperationException(Convert.ToString(error));
+            HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest);
+            var dict = await httpResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>()?? throw new InvalidOperationException("No response from finnhub server");
 
-                return dict;
-            }
+            if (dict.TryGetValue("error", out var error))
+                throw new InvalidOperationException(Convert.ToString(error));
+
+            return dict;
+            
         }
     }
 }

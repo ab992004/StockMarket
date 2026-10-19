@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Services.Helpers;
@@ -10,46 +11,48 @@ namespace Services
     public class StocksService : IStocksService
     {
         //private field
-        private readonly List<BuyOrder> _buyOrders;
-        private readonly List<SellOrder> _sellOrders;
+        private readonly StockMarketDbContext _db;
 
 
         /// <summary>
         /// Constructor of StocksService class that executes when a new object is created for the class
         /// </summary>
-        public StocksService()
+        public StocksService(StockMarketDbContext dbContext)
         {
-            _buyOrders = new List<BuyOrder>();
-            _sellOrders = new List<SellOrder>();
+            _db = dbContext;
         }
-        public BuyOrderResponse CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
+        public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
         {
             if (buyOrderRequest is null) throw new ArgumentNullException("BuyOrderRequest can't be null");
             ValidationHelper.ModelValidation(buyOrderRequest);
             BuyOrder buyOrder = buyOrderRequest.ToBuyOrder();
             buyOrder.BuyOrderID = Guid.NewGuid();
-            _buyOrders.Add(buyOrder);
+            await _db.BuyOrders.AddAsync(buyOrder);
+            await _db.SaveChangesAsync();
             return buyOrder.ToBuyOrderResponse();
         }
 
-        public SellOrderResponse CreateSellOrder(SellOrderRequest? sellOrderRequest)
+        public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
         {
             if (sellOrderRequest is null) throw new ArgumentNullException("SellOrderRequest can't be null");
             ValidationHelper.ModelValidation(sellOrderRequest);
             SellOrder sellOrder = sellOrderRequest.ToSellOrder();
             sellOrder.SellOrderID = Guid.NewGuid();
-            _sellOrders.Add(sellOrder);
+            await _db.SellOrders.AddAsync(sellOrder);
+            await _db.SaveChangesAsync();
             return sellOrder.ToSellOrderResponse();
         }
 
-        public List<BuyOrderResponse> GetBuyOrders()
+        public async Task<List<BuyOrderResponse>> GetBuyOrders()
         {
-            return _buyOrders.OrderByDescending(temp => temp.DateAndTimeOfOrder).Select(temp => temp.ToBuyOrderResponse()).ToList();
+            var buyOrders = await _db.BuyOrders.ToListAsync();
+            return  buyOrders.OrderByDescending(temp => temp.DateAndTimeOfOrder).Select(temp => temp.ToBuyOrderResponse()).ToList();
         }
 
-        public List<SellOrderResponse> GetSellOrders()
+        public async Task<List<SellOrderResponse>> GetSellOrders()
         {
-            return _sellOrders.OrderByDescending(temp => temp.DateAndTimeOfOrder).Select(temp => temp.ToSellOrderResponse()).ToList();
+            var sellOrders = await _db.SellOrders.ToListAsync();
+            return sellOrders.OrderByDescending(temp => temp.DateAndTimeOfOrder).Select(temp => temp.ToSellOrderResponse()).ToList();
         }
     }
 }
