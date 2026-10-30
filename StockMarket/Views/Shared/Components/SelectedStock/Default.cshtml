@@ -1,0 +1,34 @@
+﻿@model Dictionary<string, object>
+@{
+    string Get(string key) => Model.TryGetValue(key, out var v) ? v?.ToString() ?? "" : "";
+
+    string name = Get("name");
+    string ticker = Get("ticker");
+    string logo = Get("logo");
+    string industry = Get("finnhubIndustry");
+    string exchange = Get("exchange");
+    double.TryParse(Get("price"), NumberStyles.Any, CultureInfo.InvariantCulture, out double price);
+}
+
+<div class="box white-back">
+    <div class="flex">
+        @if (!string.IsNullOrEmpty(logo))
+        {
+            <div><img src="@logo" alt="@name" width="50px" /></div>
+        }
+        <div>
+            <h4>@name</h4>
+            <div class="text-grey">(@ticker)</div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(industry))
+    {
+        <span class="pill">@industry</span>
+    }
+
+    <h3 class="mt"><span class="text-grey">$</span> @price.ToString("N2", CultureInfo.InvariantCulture)</h3>
+    <div class="text-grey mb">Exchange: @exchange</div>
+
+    <a class="button-link button-blue-back" id="trade-button" href="~/Trade/Index/@ticker">Trade Now</a>
+</div>

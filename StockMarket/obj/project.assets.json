@@ -1090,6 +1090,32 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
+      "Repositories/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "RepositroyContracts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Repositories.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Repositories.dll": {}
+        }
+      },
+      "RepositroyContracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositroyContracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositroyContracts.dll": {}
+        }
+      },
       "ServiceContracts/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -1107,6 +1133,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "RepositroyContracts": "1.0.0",
           "ServiceContracts": "1.0.0"
         },
         "compile": {
@@ -3172,6 +3199,16 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
+    "Repositories/1.0.0": {
+      "type": "project",
+      "path": "../Repositories/Repositories.csproj",
+      "msbuildProject": "../Repositories/Repositories.csproj"
+    },
+    "RepositroyContracts/1.0.0": {
+      "type": "project",
+      "path": "../RepositroyContracts/RepositroyContracts.csproj",
+      "msbuildProject": "../RepositroyContracts/RepositroyContracts.csproj"
+    },
     "ServiceContracts/1.0.0": {
       "type": "project",
       "path": "../ServiceContracts/ServiceContracts.csproj",
@@ -3186,6 +3223,7 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.EntityFrameworkCore.Design >= 10.0.13",
+      "Repositories >= 1.0.0",
       "Rotativa.AspNetCore >= 1.5.0",
       "ServiceContracts >= 1.0.0",
       "Services >= 1.0.0"
@@ -3224,6 +3262,9 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
+            "C:\\Users\\ramys\\OneDrive\\Documents\\StockApp\\Repositories\\Repositories.csproj": {
+              "projectPath": "C:\\Users\\ramys\\OneDrive\\Documents\\StockApp\\Repositories\\Repositories.csproj"
+            },
             "C:\\Users\\ramys\\OneDrive\\Documents\\StockApp\\ServiceContracts\\ServiceContracts.csproj": {
               "projectPath": "C:\\Users\\ramys\\OneDrive\\Documents\\StockApp\\ServiceContracts\\ServiceContracts.csproj"
             },

@@ -49,3 +49,5 @@ C:\Users\ramys\OneDrive\Documents\StockApp\Services\obj\Debug\net10.0\Services.d
 C:\Users\ramys\OneDrive\Documents\StockApp\Services\obj\Debug\net10.0\refint\Services.dll
 C:\Users\ramys\OneDrive\Documents\StockApp\Services\obj\Debug\net10.0\Services.pdb
 C:\Users\ramys\OneDrive\Documents\StockApp\Services\obj\Debug\net10.0\ref\Services.dll
+C:\Users\ramys\OneDrive\Documents\StockApp\Services\bin\Debug\net10.0\RepositroyContracts.dll
+C:\Users\ramys\OneDrive\Documents\StockApp\Services\bin\Debug\net10.0\RepositroyContracts.pdb

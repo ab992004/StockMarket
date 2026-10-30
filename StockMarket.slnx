@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="Entities/Entities.csproj" Id="ddb60acc-af82-4238-be97-2450be799e96" />
+  <Project Path="Repositories/Repositories.csproj" Id="a2426936-8961-40a0-a4a0-f109e4d551c0" />
+  <Project Path="RepositroyContracts/RepositroyContracts.csproj" Id="d63861de-9b06-4aa8-bf59-f8e231d74fa3" />
   <Project Path="ServiceContracts/ServiceContracts.csproj" />
   <Project Path="Services/Services.csproj" />
   <Project Path="StockMarket/StockMarket.csproj" />

@@ -9,6 +9,7 @@
       "Services/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Http": "10.0.12",
+          "RepositroyContracts": "1.0.0",
           "ServiceContracts": "1.0.0"
         },
         "runtime": {
@@ -699,6 +700,17 @@
           }
         }
       },
+      "RepositroyContracts/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "runtime": {
+          "RepositroyContracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "ServiceContracts/1.0.0": {
         "dependencies": {
           "Entities": "1.0.0",
@@ -1056,6 +1068,11 @@
       "hashPath": "system.security.cryptography.protecteddata.9.0.11.nupkg.sha512"
     },
     "Entities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RepositroyContracts/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
