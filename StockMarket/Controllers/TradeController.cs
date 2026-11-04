@@ -17,7 +17,7 @@ namespace StockMarket.Controllers
     private readonly IStocksService _stocksService;
     private readonly IFinnhubService _finnhubService;
     private readonly IConfiguration _configuration;
-
+    private readonly ILogger<TradeController> _logger;
 
     /// <summary>
     /// Constructor for TradeController that executes when a new object is created for the class
@@ -26,12 +26,14 @@ namespace StockMarket.Controllers
     /// <param name="stocksService">Injecting StocksService</param>
     /// <param name="finnhubService">Injecting FinnhubService</param>
     /// <param name="configuration">Injecting IConfiguration</param>
-    public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration)
+    /// <param name="logger">Injecting ILogger</param>
+    public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration, ILogger<TradeController> logger)
     {
       _tradingOptions = tradingOptions.Value;
       _stocksService = stocksService;
       _finnhubService = finnhubService;
       _configuration = configuration;
+      _logger = logger;
     }
 
 
@@ -39,6 +41,7 @@ namespace StockMarket.Controllers
     //[Route("~/[controller]/{stockSymbol}")]
     public async Task<IActionResult> Index(string stockSymbol)
     {
+      _logger.LogInformation("Index action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //reset stock symbol if not exists
       if (string.IsNullOrEmpty(stockSymbol))
         stockSymbol = "MSFT";
@@ -71,6 +74,7 @@ namespace StockMarket.Controllers
     [HttpPost]
     public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
     {
+      _logger.LogInformation("BuyOrder action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //update date of order
       buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
 
@@ -97,6 +101,7 @@ namespace StockMarket.Controllers
     [HttpPost]
     public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
     {
+      _logger.LogInformation("SellOrder action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //update date of order
       sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
 
@@ -121,6 +126,7 @@ namespace StockMarket.Controllers
     [Route("[action]")]
     public async Task<IActionResult> Orders()
     {
+      _logger.LogInformation("Orders action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //invoke service methods
       List<BuyOrderResponse> buyOrderResponses = await _stocksService.GetBuyOrders();
       List<SellOrderResponse> sellOrderResponses = await _stocksService.GetSellOrders();
@@ -137,6 +143,7 @@ namespace StockMarket.Controllers
     [Route("OrdersPDF")]
     public async Task<IActionResult> OrdersPDF()
     {
+      _logger.LogInformation("OrdersPDF action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //Get list of orders
       List<IOrderResponse> orders = new List<IOrderResponse>();
       orders.AddRange(await _stocksService.GetBuyOrders());

@@ -1121,6 +1121,14 @@
             "Microsoft.Extensions.Http": {
               "target": "Package",
               "version": "[10.0.12, )"
+            },
+            "Serilog.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "SerilogTimings": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [

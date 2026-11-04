@@ -5,8 +5,12 @@ using Services;
 using StockMarket;
 using Repositories;
 using RepositroyContracts;
+using Serilog;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+  configuration.ReadFrom.Configuration(context.Configuration).ReadFrom.Services(services);
+});
 #region Services
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFinnhubService, FinnhubService>();

@@ -11,11 +11,13 @@ namespace StockMarket.Controllers
   {
     private readonly TradingOptions _tradingOptions;
     private readonly IFinnhubService _finnhubService;
+    private readonly ILogger<StocksController> _logger;
 
-    public StocksController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService)
+    public StocksController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService, ILogger<StocksController> logger)
     {
       _tradingOptions = tradingOptions.Value;
       _finnhubService = finnhubService;
+      _logger = logger;
     }
 
     [Route("/")]
@@ -23,6 +25,7 @@ namespace StockMarket.Controllers
     [Route("~/[action]/{stock?}")]
     public async Task<IActionResult> Explore(string? stock, string? searchText, bool showAll = false)
     {
+      _logger.LogInformation("Explore action called with stock: {Stock}, searchText: {SearchText}, showAll: {ShowAll}", stock, searchText, showAll);
       List<Stock> stocks = string.IsNullOrWhiteSpace(searchText)
         ? await GetStocksList(showAll)
         : await SearchStocksList(searchText.Trim());
@@ -34,6 +37,7 @@ namespace StockMarket.Controllers
 
     private async Task<List<Stock>> GetStocksList(bool showAll)
     {
+      _logger.LogInformation("GetStocksList called with showAll: {ShowAll}", showAll);
       List<Dictionary<string, string>>? stocksDictionary = await _finnhubService.GetStocks();
       if (stocksDictionary is null)
         return new List<Stock>();
@@ -54,6 +58,7 @@ namespace StockMarket.Controllers
 
     private async Task<List<Stock>> SearchStocksList(string searchText)
     {
+      _logger.LogInformation("SearchStocksList called with searchText: {SearchText}", searchText);
       Dictionary<string, object>? response = await _finnhubService.SearchStocks(searchText);
 
       if (response is null

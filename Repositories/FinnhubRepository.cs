@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RepositroyContracts;
 namespace Repositories
 {
@@ -7,14 +8,17 @@ namespace Repositories
   {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
-    public FinnhubRepository(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+    private readonly ILogger<FinnhubRepository> _logger;
+    public FinnhubRepository(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<FinnhubRepository> logger)
     {
       _httpClientFactory = httpClientFactory;
       _configuration = configuration;
+      _logger = logger;
     }
 
     public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSympol)
     {
+      _logger.LogInformation("GetCompanyProfile method of FinnhubRepository invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       string? token = _configuration["FinnhubToken"];
 
       if (string.IsNullOrEmpty(token))
@@ -37,6 +41,7 @@ namespace Repositories
 
     public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSympol)
     {
+      _logger.LogInformation("GetStockPriceQuote method of FinnhubRepository invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       string? token = _configuration["FinnhubToken"];
 
       if (string.IsNullOrEmpty(token))
@@ -62,6 +67,7 @@ namespace Repositories
 
     public async Task<List<Dictionary<string, string>>?> GetStocks()
     {
+      _logger.LogInformation("GetStocks method of FinnhubRepository invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       string? token = _configuration["FinnhubToken"];
       if (string.IsNullOrEmpty(token))
         throw new InvalidOperationException("Finnhub Token isn't configured");
@@ -87,6 +93,7 @@ namespace Repositories
 
     public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
     {
+      _logger.LogInformation("SearchStocks method of FinnhubRepository invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       string? token = _configuration["FinnhubToken"];
 
       if (string.IsNullOrEmpty(token))

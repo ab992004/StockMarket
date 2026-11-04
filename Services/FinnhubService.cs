@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RepositroyContracts;
+using Serilog;
+using SerilogTimings;
 using ServiceContracts;
 using System.Net.Http.Json;
 namespace Services
@@ -7,33 +10,54 @@ namespace Services
   public class FinnhubService : IFinnhubService
   {
     private readonly IFinnhubRepository _finnhubRepository;
-
-    public FinnhubService(IFinnhubRepository finnhubRepository)
+    private readonly ILogger<FinnhubService> _logger;
+    public FinnhubService(IFinnhubRepository finnhubRepository, ILogger<FinnhubService> logger)
     {
       _finnhubRepository = finnhubRepository;
+      _logger = logger;
     }
 
-    public Task<Dictionary<string, object>?> GetCompanyProfile(string stockSympol)
+    public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSympol)
     {
-      var dict = _finnhubRepository.GetCompanyProfile(stockSympol);
+      _logger.LogInformation("GetCompanyProfile method of FinnhubService invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
+      Dictionary<string, object>? dict;
+      using (Operation.Time("GetCompanyProfile"))
+      {
+        dict = await _finnhubRepository.GetCompanyProfile(stockSympol);
+      }
       return dict;
     }
 
-    public Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSympol)
+    public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSympol)
     {
-      var dict = _finnhubRepository.GetStockPriceQuote(stockSympol);
+      _logger.LogInformation("GetStockPriceQuote method of FinnhubService invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
+      Dictionary<string, object>? dict;
+      using (Operation.Time("GetStockPriceQuote"))
+      {
+        dict = await _finnhubRepository.GetStockPriceQuote(stockSympol);
+      }
       return dict;
     }
 
-    public Task<List<Dictionary<string, string>>?> GetStocks()
+    public async Task<List<Dictionary<string, string>>?> GetStocks()
     {
-      var dict = _finnhubRepository.GetStocks();
+      _logger.LogInformation("GetStocks method of FinnhubService invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
+      List<Dictionary<string, string>>? dict;
+      using (Operation.Time("GetStocks"))
+      {
+        dict = await _finnhubRepository.GetStocks();
+      }
       return dict;
     }
 
-    public Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
+    public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
     {
-      var dict = _finnhubRepository.SearchStocks(stockSymbolToSearch);
+      _logger.LogInformation("SearchStocks method of FinnhubService invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
+      Dictionary<string, object>? dict;
+      using (Operation.Time("SearchStocks"))
+      {
+        dict = await _finnhubRepository.SearchStocks(stockSymbolToSearch);
+      }
       return dict;
     }
   }
