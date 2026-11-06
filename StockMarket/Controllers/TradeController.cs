@@ -5,11 +5,13 @@ using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
+using StockMarket.Filters.ActionFilters;
 using StockMarket.Models;
 using System.Globalization;
 
 namespace StockMarket.Controllers
 {
+
   [Route("[controller]")]
   public class TradeController : Controller
   {
@@ -17,7 +19,7 @@ namespace StockMarket.Controllers
     private readonly IStocksService _stocksService;
     private readonly IFinnhubService _finnhubService;
     private readonly IConfiguration _configuration;
-    private readonly ILogger<TradeController> _logger;
+
 
     /// <summary>
     /// Constructor for TradeController that executes when a new object is created for the class
@@ -26,22 +28,19 @@ namespace StockMarket.Controllers
     /// <param name="stocksService">Injecting StocksService</param>
     /// <param name="finnhubService">Injecting FinnhubService</param>
     /// <param name="configuration">Injecting IConfiguration</param>
-    /// <param name="logger">Injecting ILogger</param>
-    public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration, ILogger<TradeController> logger)
+    public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration)
     {
       _tradingOptions = tradingOptions.Value;
       _stocksService = stocksService;
       _finnhubService = finnhubService;
       _configuration = configuration;
-      _logger = logger;
     }
 
 
     [Route("[action]/{stockSymbol}")]
-    //[Route("~/[controller]/{stockSymbol}")]
+    [Route("~/[controller]/{stockSymbol}")]
     public async Task<IActionResult> Index(string stockSymbol)
     {
-      _logger.LogInformation("Index action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //reset stock symbol if not exists
       if (string.IsNullOrEmpty(stockSymbol))
         stockSymbol = "MSFT";
@@ -72,26 +71,11 @@ namespace StockMarket.Controllers
 
     [Route("[action]")]
     [HttpPost]
-    public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
+    [TypeFilter(typeof(CreateOrderActionFilter))]
+    public async Task<IActionResult> BuyOrder(BuyOrderRequest orderRequest)
     {
-      _logger.LogInformation("BuyOrder action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
-      //update date of order
-      buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
-
-      //re-validate the model object after updating the date
-      ModelState.Clear();
-      TryValidateModel(buyOrderRequest);
-
-
-      if (!ModelState.IsValid)
-      {
-        ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-        StockTrade stockTrade = new StockTrade() { StockName = buyOrderRequest.StockName, Quantity = buyOrderRequest.Quantity, StockSymbol = buyOrderRequest.StockSymbol };
-        return View("Index", stockTrade);
-      }
-
       //invoke service method
-      BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(buyOrderRequest);
+      BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(orderRequest);
 
       return RedirectToAction(nameof(Orders));
     }
@@ -99,25 +83,11 @@ namespace StockMarket.Controllers
 
     [Route("[action]")]
     [HttpPost]
-    public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
+    [TypeFilter(typeof(CreateOrderActionFilter))]
+    public async Task<IActionResult> SellOrder(SellOrderRequest orderRequest)
     {
-      _logger.LogInformation("SellOrder action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
-      //update date of order
-      sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
-
-      //re-validate the model object after updating the date
-      ModelState.Clear();
-      TryValidateModel(sellOrderRequest);
-
-      if (!ModelState.IsValid)
-      {
-        ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-        StockTrade stockTrade = new StockTrade() { StockName = sellOrderRequest.StockName, Quantity = sellOrderRequest.Quantity, StockSymbol = sellOrderRequest.StockSymbol };
-        return View("Index", stockTrade);
-      }
-
       //invoke service method
-      SellOrderResponse sellOrderResponse = await _stocksService.CreateSellOrder(sellOrderRequest);
+      SellOrderResponse sellOrderResponse = await _stocksService.CreateSellOrder(orderRequest);
 
       return RedirectToAction(nameof(Orders));
     }
@@ -126,7 +96,6 @@ namespace StockMarket.Controllers
     [Route("[action]")]
     public async Task<IActionResult> Orders()
     {
-      _logger.LogInformation("Orders action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //invoke service methods
       List<BuyOrderResponse> buyOrderResponses = await _stocksService.GetBuyOrders();
       List<SellOrderResponse> sellOrderResponses = await _stocksService.GetSellOrders();
@@ -143,7 +112,6 @@ namespace StockMarket.Controllers
     [Route("OrdersPDF")]
     public async Task<IActionResult> OrdersPDF()
     {
-      _logger.LogInformation("OrdersPDF action method of TradeController invoked at {DT}", DateTime.UtcNow.ToLongTimeString());
       //Get list of orders
       List<IOrderResponse> orders = new List<IOrderResponse>();
       orders.AddRange(await _stocksService.GetBuyOrders());
@@ -159,5 +127,6 @@ namespace StockMarket.Controllers
         PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
       };
     }
+
   }
 }

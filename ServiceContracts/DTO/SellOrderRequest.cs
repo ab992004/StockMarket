@@ -6,8 +6,8 @@ using System.Text;
 
 namespace ServiceContracts.DTO
 {
-    public class SellOrderRequest
-    {
+    public class SellOrderRequest: IOrderRequest, IValidatableObject
+  {
         [Required]
         public string? StockSymbol { get; set; }
         [Required]
