@@ -263,3 +263,4 @@ C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\bin\Debug\net10.0\Serilog
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\bin\Debug\net10.0\Serilog.Sinks.MSSqlServer.dll
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\bin\Debug\net10.0\Serilog.Sinks.Seq.dll
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\bin\Debug\net10.0\SerilogTimings.dll
+C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\obj\Debug\net10.0\compressed\5b0o19pusn-{0}-3iwubkh3iq-3iwubkh3iq.gz

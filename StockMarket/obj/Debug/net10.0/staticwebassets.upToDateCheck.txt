@@ -1,11 +1,13 @@
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\jquery.validate.unobtrusive.min.js
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\Scripts\FinnhubScript.js
+C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\error.svg
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\jquery.validate.min.js
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\StyleSheet.css
 C:\Users\ramys\OneDrive\Documents\StockApp\StockMarket\wwwroot\jquery.min.js
 wwwroot\Rotativa\wkhtmltopdf.exe
 wwwroot\Scripts\FinnhubScript.js
 wwwroot\StyleSheet.css
+wwwroot\error.svg
 wwwroot\jquery.min.js
 wwwroot\jquery.validate.min.js
 wwwroot\jquery.validate.unobtrusive.min.js

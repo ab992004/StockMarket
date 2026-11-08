@@ -6,6 +6,7 @@ using StockMarket;
 using Repositories;
 using RepositroyContracts;
 using Serilog;
+using StockMarket.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, services, configuration) =>
 {
@@ -27,8 +28,17 @@ builder.Services.AddDbContext<StockMarketDbContext>(options =>
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+  app.UseDeveloperExceptionPage();
+}
+else
+{
+  app.UseExceptionHandler("/error");
+  app.UseExceptionHandlingMiddleware();
 
-if(!app.Environment.IsEnvironment("Test"))
+}
+if (!app.Environment.IsEnvironment("Test"))
   Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 
 
